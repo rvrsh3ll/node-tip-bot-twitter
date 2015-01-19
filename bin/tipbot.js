@@ -1,6 +1,4 @@
 	
-//wip
-     
     var winston = require('winston'),
             fs = require('fs'),
             yaml = require('js-yaml'),
