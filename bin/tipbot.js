@@ -100,13 +100,13 @@
     client.stream('statuses/filter', {track: 'skeinbot'}, function (stream) {
      
         stream.on('data', function (tweet) {
-            console.log(tweet.user.name + '|' + tweet.text);
+            console.log('@'+ tweet.user.screen_name + '|' + tweet.text);
             //var match = tweet.text.match(/(skeinbot)(\s)([a-zA-Z]+)(\s)(.+)(\s)([0-9]+)/);
             var match = tweet.text.match(/(skeinbot)(\s)([a-zA-Z]+)/);
             if (match == null)
                 return;
             var command = match[3];
-            var from = tweet.user.name;
+            var from = tweet.user.sreen_name; 
             var msg = tweet.txt;
             var message = tweet.text;
             var replyid = tweet.id_str;
