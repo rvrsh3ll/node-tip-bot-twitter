@@ -1,3 +1,5 @@
+WIP - WIP for twitterfork of unek node-tip-bot - Biersteker
+
 node-tip-bot is an open-source node.js IRC bot for tipping with altcoins. It uses [node-dogecoin](https://github.com/countable/node-dogecoin) for integration with Litecoin's JSON RPC API.
 
 # Instalation
