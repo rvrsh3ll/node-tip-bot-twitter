@@ -5,12 +5,12 @@
             coin = require('node-dogecoin');
     var Twitter = require('twitter');
     // check if the config file exists
-    if (!fs.existsSync('config.yml')) {
+if(!fs.existsSync('./config/config.yml')) {
         winston.error('Configuration file doesn\'t exist! Please read the README.md file first.');
         process.exit(1);
     }
     // load settings
-    var settings = yaml.load(fs.readFileSync('config.yml', 'utf-8'));
+   var settings = yaml.load(fs.readFileSync('./config/config.yml', 'utf-8'));
     // load winston's cli defaults
     winston.cli();
     // write logs to file
