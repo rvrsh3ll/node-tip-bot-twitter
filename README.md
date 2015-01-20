@@ -1,12 +1,15 @@
 WIP - WIP for twitterfork of unek node-tip-bot - Biersteker
 
-node-tip-bot is an open-source node.js IRC bot for tipping with altcoins. It uses [node-dogecoin](https://github.com/countable/node-dogecoin) for integration with Litecoin's JSON RPC API.
+node-tip-bot-twitter is an open-source node.js IRC bot for tipping with altcoins. 
+
+It is forked off uneks IRC node-tip-bot (https://github.com/unek/node-tip-bot)
+It uses [node-dogecoin](https://github.com/countable/node-dogecoin) for integration with your coin's JSON RPC API.
 
 # Instalation
 To install node-tip-bot simply clone this repo and install dependencies:
 ```bash
-git clone https://github.com/unek/node-tip-bot
-cd node-tip-bot
+git clone https://github.com/unek/node-tip-bot-twitter
+cd node-tip-bot-twitter
 npm install
 ```
 After installation proceed to the configuration.
@@ -14,28 +17,12 @@ After installation proceed to the configuration.
 # Configuration
 To configure, copy the `config/config.sample.yml` file to `config/config.yml`.
 
-## connection
-IRC network connection info.
-* **host** - hostname of the IRC server
-* **port** - port of the IRC server
-* **secure** - use secured connection
-* **status_command** - NickServ command to get nick's login status, ACC on freenode, STATUS on some other networks
-
-## login
-IRC network connection and login info.
-* **nickname** - bot's nickname
-* **username** - bot's username
-* **realname** - bot's realname
-* **nickserv_password** - nickserv password to identify with
-
-## channels
-List of channels to auto-join to.
-
-## webadmin
-Web interface settings.
-* **enabled** - enabled web admin
-* **port** - port to bound to
-* **users** - list of users with access to web interface in `name: password` format
+## twitter
+Create an application at dev.twitter.com and fill in your keys.
+* **consumer_key: ''
+* **consumer_secret: ''
+* **access_token_key: ''
+* **access_token_secret: '' 
 
 ## log
 Logging settings.
@@ -57,15 +44,6 @@ Basic coin settings.
 * **short_name** - short coin's name (eg. `Đ` or `DOGE`)
 * **full_name** - full coin's name (eg. `dogecoin`)
 
-## commands
-Here you can restrict some commands to work only on PM/channel.
-
-## messages
-Whatever the bot says. Supports expandable variables (eg. `%nick%` for bot's nick). By default all config vars from `rpc` section are available.
-
-# How does it work?
-Every nickname has it's own account in your wallet. When tipping or withdrawing, bot checks if user is registered and identified with NickServ. If so, he moves the money from one account to another, or when withdrawing, transfers coins to other wallet.
-
 # How to run it?
 Before running the bot, you have to be running your coin daemon with JSON-RPC API enabled. To enable, add this to your coin daemon configuration file (eg. `~/.dogecoin/dogecoin.conf`):
 ```ini
@@ -75,11 +53,10 @@ rpcuser=<your username>
 rpcpassword=<your super secret password>
 rpcallowip=<your bot's ip address or just 127.0.0.1 if hosted on the same machine>
 ```
-
 To run the bot simply use `node bin/tipbot` or `npm start`.
 
 ## Commands
-Commands are executed by messaging the bot. Commands that have channel:true in the config can be run with '!<command>' in the channel.
+Commands are executed by placing skeinbot <command> <arguments> in a tweet.
 
 | **Command** | **Arguments**     | **Description**
 |-------------|-------------------|--------------------------------------------------------------------
@@ -89,12 +66,5 @@ Commands are executed by messaging the bot. Commands that have channel:true in t
 | `tip`       | `<nick> <amount>` | sends the specified amount of coins to the specified nickname
 | `help`      |                   | displays configured help message (by default similiar to this one)
 | `terms`     |                   | displays terms and conditions for using the tip bot
-| `rain`      | <amount> [max]    | splits `amount` coins between `max` users on the channel
 
-## Donations
-Donations are welcome! If you like my bot and want to donate me, here are my wallet addresses:
 
-* **Bitcoin**: 1G7T2JNDnbxo3txFWZSuV5oYq8qwtSEg51
-* **Dogecoin**: DGLT1pTSKAXLSSSz1NGFgZNLioDyHdaDyA
-
-or just tip me (unek) on freenode in your freshly installed tipbot :smile:
