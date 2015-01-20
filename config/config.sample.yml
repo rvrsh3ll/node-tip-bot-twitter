@@ -2,7 +2,9 @@ twitter:
     consumer_key: ''
     consumer_secret: ''
     access_token_key: ''
-    access_token_secret: ''  
+    access_token_secret: ''
+    twittername: ''
+    twitterkeyword: 'skeinbot'
 connection: 
   host: irc.freenode.net
   port: 6697
