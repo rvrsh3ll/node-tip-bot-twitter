@@ -8,7 +8,7 @@ It uses [node-dogecoin](https://github.com/countable/node-dogecoin) for integrat
 # Instalation
 To install node-tip-bot simply clone this repo and install dependencies:
 ```bash
-git clone https://github.com/unek/node-tip-bot-twitter
+git clone https://github.com/Biersteker/node-tip-bot-twitter
 cd node-tip-bot-twitter
 npm install
 ```
