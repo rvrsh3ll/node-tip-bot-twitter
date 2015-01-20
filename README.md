@@ -1,6 +1,6 @@
 WIP - WIP for twitterfork of unek node-tip-bot - Biersteker
 
-node-tip-bot-twitter is an open-source node.js IRC bot for tipping with altcoins. 
+node-tip-bot-twitter is an open-source node.js twitter bot for tipping with altcoins. 
 
 It is forked off uneks IRC node-tip-bot (https://github.com/unek/node-tip-bot)
 It uses [node-dogecoin](https://github.com/countable/node-dogecoin) for integration with your coin's JSON RPC API.
