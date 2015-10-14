@@ -97,7 +97,7 @@ if(!fs.existsSync('./config/config.yml')) {
                                     str : global[variable]) : settings.coin[variable]) : values[variable];
         });
     }
-    client.stream('statuses/filter', {track: 'skeinbot'}, function (stream) {
+    client.stream('statuses/filter', {track: settings.twitter.twitterkeyword}, function (stream) {
      
         stream.on('data', function (tweet) {
             console.log('@'+ tweet.user.screen_name + '|' + tweet.text);
