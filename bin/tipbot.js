@@ -106,7 +106,7 @@ if(!fs.existsSync('./config/config.yml')) {
             if (match == null)
                 return;
             var command = match[3];
-            var from = tweet.user.sreen_name; 
+            var from = tweet.user.screen_name; 
             var msg = tweet.txt;
             var message = tweet.text;
             var replyid = tweet.id_str;
