@@ -209,7 +209,7 @@ if(!fs.existsSync('./config/config.yml')) {
                     break;
                 case 'withdraw':
                     console.log('withdrawl');
-                    var match = message.match(/^.?withdraw (\S+)$/);
+                    var match = message.match(/.?withdraw (\S+)$/);
                     if (match == null) {
                         replytweet(from, replyid, 'Usage: !withdraw <' + settings.coin.full_name + ' address>');
                         return;
