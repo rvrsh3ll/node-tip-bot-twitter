@@ -94,6 +94,17 @@ if(!fs.existsSync('./config/config.yml')) {
             callback(false, address);
         });
     }
+        String.prototype.expand = function (values) {
+        var global = {
+            nick: 'client.nick'
+        }
+        return this.replace(/%([a-zA-Z_]+)%/g, function (str, variable) {
+            return typeof (values[variable]) == 'undefined' ?
+                    (typeof (settings.coin[variable]) == 'undefined' ?
+                            (typeof (global[variable]) == 'undefined' ?
+                                    str : global[variable]) : settings.coin[variable]) : values[variable];
+        });
+    }
     client.stream('statuses/filter', {track: settings.twitter.twitterkeyword}, function (stream) {
           stream.on('error', function(error) {
             winston.error('Something went wrong with the twitter streaming api. ');
@@ -103,7 +114,7 @@ if(!fs.existsSync('./config/config.yml')) {
   });
         stream.on('data', function (tweet) {
             console.log('@'+ tweet.user.screen_name + '|' + tweet.text);
-            var regex= new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)", "g");
+            var regex= new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)", "i");
             var match = tweet.text.match(regex);
             if (match == null)
                 return;
@@ -122,7 +133,7 @@ if(!fs.existsSync('./config/config.yml')) {
 
             switch (command) {
                 case 'tip':
-                var regex = new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)(\\s)(\\@)(.+)(\\s)([0-9]+)", "g");
+                var regex = new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)(\\s)(\\@)(.+)(\\s)([0-9]+)", "i");
                     var match = tweet.text.match(regex);
                     console.log('tip');
                     console.log(match[0] + ',' + match[1] + ',' + match[2] + ',' + match[3] + ',' + match[4] + ',' + match[5] + ',' + match[6] + ',' + match[7] + ',' + match[8]);
