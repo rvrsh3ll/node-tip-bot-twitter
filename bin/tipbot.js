@@ -96,7 +96,7 @@ if(!fs.existsSync('./config/config.yml')) {
     }
         String.prototype.expand = function (values) {
         var global = {
-            nick: 'client.nick'
+            nick: settings.twitter.twittername
         }
         return this.replace(/%([a-zA-Z_]+)%/g, function (str, variable) {
             return typeof (values[variable]) == 'undefined' ?
