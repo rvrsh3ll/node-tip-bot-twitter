@@ -3,6 +3,7 @@
             fs = require('fs'),
             yaml = require('js-yaml'),
             coin = require('node-dogecoin');
+    
     var Twitter = require('twitter');
     // check if the config file exists
 if(!fs.existsSync('./config/config.yml')) {
@@ -47,7 +48,14 @@ if(!fs.existsSync('./config/config.yml')) {
         access_token_key: settings.twitter.access_token_key,
         access_token_secret: settings.twitter.access_token_secret
     });
-     
+     //
+     client.get('followers/ids', function(error, tweets, response){
+  if(error) {console.log(error);}
+  winston.info('Connected to Twitter. Followers:' +tweets.ids.length);
+
+});
+
+
     // basic handlers
     var locks = [];
      
@@ -63,7 +71,7 @@ if(!fs.existsSync('./config/config.yml')) {
      
     function replytweet(to, replyid, themessage) {
         winston.info('Preparing tweet' + '@' + to + ' :' + themessage);
-        var newtweet = '@' + to + ' ' + themessage + '(' + makeid() + ')';
+        var newtweet = '@' + to + ' ' + themessage + '  (' + makeid() + ')';
         winston.info('' + '@' + to + ' :' + newtweet);
         client.post('statuses/update', {status: newtweet, in_reply_to_status_id: replyid}, function (error, params, response) {
             if (error) {
@@ -86,23 +94,17 @@ if(!fs.existsSync('./config/config.yml')) {
             callback(false, address);
         });
     }
-    String.prototype.expand = function (values) {
-        var global = {
-            nick: 'client.nick'
-        }
-        return this.replace(/%([a-zA-Z_]+)%/g, function (str, variable) {
-            return typeof (values[variable]) == 'undefined' ?
-                    (typeof (settings.coin[variable]) == 'undefined' ?
-                            (typeof (global[variable]) == 'undefined' ?
-                                    str : global[variable]) : settings.coin[variable]) : values[variable];
-        });
-    }
     client.stream('statuses/filter', {track: settings.twitter.twitterkeyword}, function (stream) {
-     
+          stream.on('error', function(error) {
+            winston.error('Something went wrong with the twitter streaming api. ');
+           });
+  stream.on('end', function(reason) {
+                    winston.error('Twitter streaming api throws end');
+  });
         stream.on('data', function (tweet) {
             console.log('@'+ tweet.user.screen_name + '|' + tweet.text);
-            //var match = tweet.text.match(/(skeinbot)(\s)([a-zA-Z]+)(\s)(.+)(\s)([0-9]+)/);
-            var match = tweet.text.match(/(skeinbot)(\s)([a-zA-Z]+)/);
+            var regex= new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)", "g");
+            var match = tweet.text.match(regex);
             if (match == null)
                 return;
             var command = match[3];
@@ -110,20 +112,26 @@ if(!fs.existsSync('./config/config.yml')) {
             var msg = tweet.txt;
             var message = tweet.text;
             var replyid = tweet.id_str;
-    // check if the sending user is logged in (identified) with nickserv
+    
+            if(command == 'help' || command == 'terms') {
+                for(var i = 0; i < settings.messages[command].length; i++) {
+                    replytweet(from, replyid, settings.messages[command][i].expand({}));
+                }
+            return;
+            }
+
             switch (command) {
                 case 'tip':
-                    var match = tweet.text.match(/(skeinbot)(\s)([a-zA-Z]+)(\s)(\@)(.+)(\s)([0-9]+)/);
+                var regex = new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)(\\s)(\\@)(.+)(\\s)([0-9]+)", "g");
+                    var match = tweet.text.match(regex);
                     console.log('tip');
                     console.log(match[0] + ',' + match[1] + ',' + match[2] + ',' + match[3] + ',' + match[4] + ',' + match[5] + ',' + match[6] + ',' + match[7] + ',' + match[8]);
                     if (match == null || match.length < 3) {
                         replytweet(from, replyid, 'Usage: nameofbot tip <twitterhandle> <amount>')
                         return;
                     }
-                    //if (match[4] !== '@'){ return;}
                     var to = match[6];
                     var amount = Number(match[8]);
-     
                     console.log('To:' + amount);
                     // lock
                     if (locks.hasOwnProperty(from.toLowerCase()) && locks[from.toLowerCase()])
@@ -209,6 +217,7 @@ if(!fs.existsSync('./config/config.yml')) {
                     break;
                 case 'withdraw':
                     console.log('withdrawl');
+                    var user = from.toLowerCase();
                     var match = message.match(/.?withdraw (\S+)$/);
                     if (match == null) {
                         replytweet(from, replyid, 'Usage: !withdraw <' + settings.coin.full_name + ' address>');
