@@ -274,7 +274,7 @@ if(!fs.existsSync('./config/config.yml')) {
                                         }
                                         var balance = typeof (balance) == 'object' ? balance.result : balance;
     // moves the rest to bot's wallet
-                                        coin.move(settings.rpc.prefix + from.toLowerCase(), settings.rpc.prefix + settings.login.nickname.toLowerCase(), balance);
+    					coin.move(settings.rpc.prefix + from.toLowerCase(), settings.rpc.prefix + settings.twitter.twittername.toLowerCase(), balance);
                                     });
                                 });
                             });
