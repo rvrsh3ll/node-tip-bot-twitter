@@ -5,18 +5,6 @@ twitter:
     access_token_secret: ''
     twittername: ''
     twitterkeyword: 'skeinbot'
-connection: 
-  host: irc.freenode.net
-  port: 6697
-  secure: true
-  debug: false
-login: 
-  nickname: nodetip
-  username: nodetip
-  realname: node.js dogecoin tipping bot
-  nickserv_password: pass
-channels: 
-  - '##tipbots'
 log:
   file: tipbot.log
 rpc:
