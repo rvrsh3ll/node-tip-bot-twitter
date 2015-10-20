@@ -114,6 +114,10 @@ if(!fs.existsSync('./config/config.yml')) {
   });
         stream.on('data', function (tweet) {
             console.log('@'+ tweet.user.screen_name + '|' + tweet.text);
+            if ((tweet.text).substring(0,2) == "RT"){
+                    console.log("Retweet Ingrored");
+                    return;
+                }
             var regex= new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)", "i");
             var match = tweet.text.match(regex);
             if (match == null)
