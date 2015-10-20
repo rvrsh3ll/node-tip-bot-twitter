@@ -133,7 +133,7 @@ if(!fs.existsSync('./config/config.yml')) {
 
             switch (command) {
                 case 'tip':
-                var regex = new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)(\\s)(\\@)(.+)(\\s)([0-9]+)", "i");
+                var regex = new RegExp("(" + settings.twitter.twitterkeyword + ")(\\s)([a-zA-Z]+)(\\s)(\\@)(.+)(\\s)(.+)", "i"); //Uglyfix
                     var match = tweet.text.match(regex);
                     console.log('tip');
                     console.log(match[0] + ',' + match[1] + ',' + match[2] + ',' + match[3] + ',' + match[4] + ',' + match[5] + ',' + match[6] + ',' + match[7] + ',' + match[8]);
