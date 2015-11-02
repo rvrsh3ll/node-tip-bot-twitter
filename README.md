@@ -1,4 +1,4 @@
-WIP - WIP for twitterfork of unek node-tip-bot - Biersteker
+twitterfork of unek node-tip-bot - Biersteker/Strikerbee/Gielbier
 
 node-tip-bot-twitter is an open-source node.js twitter bot for tipping with altcoins. 
 
