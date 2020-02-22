@@ -82,6 +82,18 @@ if(!fs.existsSync('./config/config.yml')) {
             console.log('Tweeting');
         });
     }
+    function replydm(USER_ID, newmessage) {
+        winston.info('Preparing direct message' + '@' + to + ' :' + themessage);
+        var newmessage = '@' + to + ' ' + themessage + '  (' + makeid() + ')';
+        winston.info('' + '@' + to + ' :' + newmessage);
+        client.post('direct_messages/new', {user_id: USER_ID, text: newmessage, }, function (error, params, response) {
+            if (error) {
+                console.log(error);
+                //throw error;
+            }
+     
+            console.log('DM');
+    }
      
     function getAddress(nickname, callback) {
         winston.debug('Requesting address for %s', nickname);
@@ -203,10 +215,11 @@ if(!fs.existsSync('./config/config.yml')) {
                     getAddress(user, function (err, address) {
                         if (err) {
                             winston.error('Error in !address command', err);
-                            replytweet(from, replyid, settings.messages.error.expand({name: from}));
+                            replydm(user, settings.messages.error.expand({name: from}));
+                            //replytweet(from, replyid, settings.messages.error.expand({name: from}));
                             return;
                         }
-                        replytweet(from, replyid, settings.messages.deposit_address.expand({name: user, address: address}));
+                        replydm(user, settings.messages.deposit_address.expand({name: user, address: address}));
                     });
                     break;
                 case 'balance':
